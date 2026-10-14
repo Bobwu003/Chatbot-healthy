@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'nutri_calculator_service.dart';
 void main() {
   runApp(const NutriApp());
 }
@@ -17,7 +17,7 @@ class NutriApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Nutri - Asistente de Nutrición',
+      title: 'Mr.Healthy  - Tu propio asistente ',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
@@ -33,6 +33,7 @@ class NutriApp extends StatelessWidget {
     );
   }
 }
+
 
 class ChatMessage {
   final String text;
@@ -55,29 +56,30 @@ class _NutriChatPageState extends State<NutriChatPage> {
   final TextEditingController messageController = TextEditingController();
 
   final ScrollController scrollController = ScrollController();
-
+  final NutriCalculatorService _calculatorService = NutriCalculatorService();
   bool isTyping = false;
 
   final List<ChatMessage> messages = [
     ChatMessage(
-      text: '¡Hola! Soy Nutri, tu asistente de nutrición. '
-          'Puedo ayudarte con dudas sobre alimentación, ideas de '
-          'comidas, hidratación y hábitos saludables. '
+      text: '¡Hola! Soy Mr.Healthy, soy tu asistente personalizado. '
+          'Puedo ayudarte con dudas sobre habitos saludables, ideas de '
+          'comidas, hidratación. '
           '¿Sobre qué te gustaría saber?',
       isUser: false,
     ),
   ];
 
   final List<String> quickOptions = [
-    '¿Cuánta agua debo tomar?',
-    'Ideas de desayuno',
-    '¿Cuántas calorías necesito?',
-    'Alimentos con proteína',
-    '¿Cómo bajar de peso?',
-    'Snacks saludables',
-    ' Azucar en sangre en niños',
-    ' Azucar en sangre en un adulto ',
-    ' Azucar en sangre en un adulta ',
+    '¿Cuánta agua debo tomar al día?',
+    '¿Es mejor comer antes o después de entrenar?',
+    '¿Como funciona el mecanismo de retroalimentación?',
+    '¿Como funciona las evidencias?',
+    '¿Cómo gano experiencia (XP) y subo de nivel?',
+    'Ideas de snacks saludables para la tarde',
+    'Sugerir un nuevo hábito saludable',
+    'Explicar un habito',
+    'Calcular mi IMC',
+    'Calcular mi GET',
   ];
 
   void sendMessage([String? predefinedText]) {
@@ -93,9 +95,9 @@ class _NutriChatPageState extends State<NutriChatPage> {
     });
 
     scrollToBottom();
-
-    final response = getNutriResponse(text);
-
+    final respuesta = _calculatorService.procesarMensaje(text);
+    final response =
+        respuesta.isNotEmpty ? respuesta : getNutriResponse(text);
     Future.delayed(const Duration(milliseconds: 450), () {
       if (!mounted) return;
 
@@ -122,117 +124,49 @@ class _NutriChatPageState extends State<NutriChatPage> {
       );
     });
   }
+  // Servicio para cálculos de nutrición (IMC y GET)
+   
 
   String getNutriResponse(String input) {
     final text = input.toLowerCase();
 
-    bool esSangre = _containsAny(text, [
-      'sangre',
-      'glucosa',
-      'nivel',
-      'niveles',
-      'rango',
-    ]);
-    bool esAzucar = _containsAny(text, [
-      'azucar',
-      'azúcar',
-    ]);
-
-    if ((esSangre && esAzucar) || text.contains('glucosa')) {
-      if (_containsAny(text, [
-        'niño',
-        'niña',
-        'niños',
-        'niñas',
-        'joven',
-        'infantil',
-        'adolescente',
-      ])) {
-        return 'Para los niños y niñas, los niveles normales de '
-            'azúcar en sangre (glucosa) en ayunas deben estar entre '
-            '70 y 100 mg/dL. Dos horas después de comer, deben ser '
-            'menores a 140 mg/dL. Si hay antecedentes de diabetes '
-            'en la familia, es importante revisar los niveles '
-            'periódicamente con un pediatra.';
-      } else if (_containsAny(text, [
-        'mujer',
-        'mujeres',
-        'adulta',
-        'embarazo',
-      ])) {
-        return 'Para las mujeres adultas, los niveles normales de '
-            'azúcar en sangre (glucosa) en ayunas suelen estar entre '
-            '70 y 99 mg/dL. Dos horas después de comer, deben ser '
-            'menores a 140 mg/dL. Si estás embarazada, los rangos '
-            'son más estrictos: en ayunas debe ser menor a 95 mg/dL. '
-            'Estos valores son orientativos; siempre consulta a un '
-            'médico.';
-      } else if (_containsAny(text, [
-        'hombre',
-        'hombres',
-        'adulto',
-      ])) {
-        return 'Para los hombres adultos, los niveles normales de '
-            'azúcar en sangre (glucosa) en ayunas deben estar entre '
-            '70 y 99 mg/dL. Dos horas después de comer, deben ser '
-            'menores a 140 mg/dL. Niveles entre 100 y 125 mg/dL en '
-            'ayunas pueden indicar prediabetes. Consulta a un médico '
-            'para una evaluación completa.';
-      } else {
-        return 'El rango normal de azúcar en sangre (glucosa) en '
-            'ayunas es de 70 a 99 mg/dL. Dos horas después de comer, '
-            'debe ser menor a 140 mg/dL. Niveles de 100 a 125 mg/dL '
-            'en ayunas indican prediabetes, y 126 mg/dL o más en dos '
-            'pruebas distintas pueden indicar diabetes. Estos valores '
-            'son orientativos; siempre consulta a un médico.';
-      }
-    }
+    
 
     if (_containsAny(text, [
-      'azúcar',
-      'azucar',
-      'refresco',
-      'dulces',
-      'endulzante',
+      'Experiencia',
+      'experiencia',
+      'xp',
+      'XP',
+      'Xp',
       'Azucar',
+      'Nivel',
+      'nivel',
+      'subir de nivel',
+      'Subir de nivel',
       ])) {
-      return 'El azúcar añadida en los alimentos se debe consumir '
-          'con moderación. Los refrescos, jugos industrializados y '
-          'dulces aportan muchas calorías sin nutrientes. Prefiere '
-          'agua, frutas enteras y endulzantes naturales con '
-          'moderación. Leer etiquetas ayuda a identificar azúcares '
-          'ocultos.';
+      return 'Ganas experiencia (XP) al registrar tus evidencias. '
+          'fotograficas, al cumplir los desafios, . '
+          'y para pasar el siguiente nivel necesitas'
+          'completar el nivel al 100% y asi poder desbloquear el siguiente nivel, '
+          ;
     }
 
     if (_containsAny(text, [
-      'cuánta agua',
-      'cuanta agua',
-      'hidratación',
-      'hidratacion',
-      'tomar agua',
-      'beber agua',
+      'Fotografía de alimentos',
+      'fotografia',
+      'Evidencias',
+      'evidencias',
+      
     ])) {
-      return 'La cantidad de agua que necesitas depende de tu edad, '
-          'peso y actividad. Como referencia general, se suelen '
-          'recomendar entre 6 y 8 vasos al día para adolescentes y '
-          'adultos. Si haces ejercicio o hace mucho calor, aumenta '
-          'un poco. Una buena señal es que tu orina sea de color '
-          'claro.';
+      return 'La evidencias fotograficas funcionan por medio, '
+          'de que avance la dificultad de los desafios, '
+          'a apartir de la dificultad media hasta la alta,'
+          'son de manera opcional que permite que se verifiquen'
+          'si se estan cumpliendo los desafios, y que se pueda ver el progreso de la persona, '
+          ;
     }
 
-    if (_containsAny(text, [
-      'desayuno',
-      'qué desayuno',
-      'que desayuno',
-      'ideas de desayuno',
-    ])) {
-      return 'Un buen desayuno combina tres cosas: una fuente de '
-          'energía (avena, pan integral, fruta), algo de proteína '
-          '(huevo, yogur, leche, frijoles) y una fruta o verdura. '
-          'Ejemplos: avena con plátano y nueces, huevos con pan '
-          'integral y una manzana, o yogur con fruta y granola sin '
-          'azúcar añadida.';
-    }
+    
 
     if (_containsAny(text, [
       'calorías',
@@ -262,17 +196,20 @@ class _NutriChatPageState extends State<NutriChatPage> {
     }
 
     if (_containsAny(text, [
-      'bajar de peso',
-      'perder peso',
-      'adelgazar',
-      'dieta para bajar',
+      'Agua',
+      'agua',
+      '¿Cuanta agua debo tomar al día?',
+      '¿cuánta agua debo tomar al día?',
+      '¿Cuánta agua debo tomar al día?',
+      '¿Cuanta agua debo tomar al dia?',
+      'Cuánta agua debo tomar al dia',
+      'cuanta agua debo tomar al dia',
+      'cuánta agua debo tomar al día',
+      
     ])) {
-      return 'Para bajar de peso de forma saludable, lo importante '
-          'no es dejar de comer, sino comer mejor: aumenta verduras '
-          'y frutas, elige granos integrales, toma agua en lugar de '
-          'refrescos y evita ultraprocesados. También ayuda moverte '
-          'todos los días. Los cambios pequeños y constantes duran '
-          'más que las dietas estrictas.';
+      return 'Multiplica tu peso corporal por 35 mililitros. Por  '
+          'ejemplo, si pesas 70 kg, necesitas unos 2.45 litros al día. '
+          ;
     }
 
     if (_containsAny(text, [
@@ -302,44 +239,29 @@ class _NutriChatPageState extends State<NutriChatPage> {
           'nuevas preparaciones.';
     }
 
-    if (_containsAny(text, [
-      'comida chatarra',
-      'ultraprocesados',
-      'procesados',
-      'frituras',
-    ])) {
-      return 'Los ultraprocesados suelen tener mucha sal, azúcar y '
-          'grasas poco saludables. No se trata de eliminarlos por '
-          'completo, sino de reservarlos para ocasiones especiales '
-          'y dar prioridad a alimentos frescos y naturales en tu '
-          'día a día.';
-    }
+    
 
     if (_containsAny(text, [
-      'vegetariano',
-      'vegetariana',
-      'vegano',
-      'vegana',
+      'Retroalimentacion',
+      'Retroalimentacion',
+      'retroalimentación',
+      'retroalimentacion',
     ])) {
-      return 'Una alimentación vegetariana o vegana bien planeada '
-          'puede ser muy saludable. Incluye leguminosas (frijol, '
-          'lenteja, garbanzo), tofu, tempeh, frutos secos, semillas '
-          'y granos integrales. Vigila la vitamina B12, hierro, '
-          'calcio y omega-3; en dietas veganas la B12 suele '
-          'requerir suplementación.';
+      return 'Permite analizar el progreso registrado, '
+          'y generar sugerencias de habitos acordes, '
+          'con los objetivos del usuario, ';
+          
     }
 
-    if (_containsAny(text, [
-      'ejercicio',
-      'actividad física',
-      'actividad fisica',
-      'deporte',
-    ])) {
-      return 'Para acompañar tu alimentación, intenta moverte al '
-          'menos 30 minutos al día: caminar, bailar, andar en bici '
-          'o hacer deporte. Combina actividad aeróbica con algo de '
-          'fuerza dos o tres veces por semana. Recuerda hidratarte '
-          'antes, durante y después.';
+    if (text.contains('entren') &&
+        _containsAny(text, ['antes', 'después', 'despues'])) {
+      return 'Depende de la duración e intensidad del ejercicio y de '
+          'cómo te sientas. Si vas a comer una comida completa antes '
+          'de entrenar, intenta hacerlo entre 1 y 3 horas antes; si '
+          'falta poco, elige algo ligero que te siente bien. Después '
+          'de entrenar, procura incluir proteína y carbohidratos en '
+          'tu siguiente comida; no es necesario comer '
+          'inmediatamente. Mantente bien hidratado.';
     }
 
     if (_containsAny(text, [
@@ -807,4 +729,5 @@ class _HydrationDialogState extends State<HydrationDialog>
       ],
     );
   }
+  
 }

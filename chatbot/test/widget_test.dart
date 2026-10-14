@@ -11,20 +11,56 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:chatbot/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  void configureTestView(WidgetTester tester) {
+    tester.view.physicalSize = const Size(1200, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+  }
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  Future<void> sendMessage(WidgetTester tester, String text) async {
+    await tester.enterText(find.byType(TextField), text);
+    await tester.tap(find.byTooltip('Enviar mensaje'));
+    await tester.pump(const Duration(milliseconds: 500));
+  }
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  testWidgets('calcula y muestra el IMC', (WidgetTester tester) async {
+    configureTestView(tester);
+    await tester.pumpWidget(const NutriApp());
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await tester.tap(find.text('Calcular mi IMC'));
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(find.textContaining('¿Quieres calcular tu IMC?'), findsOneWidget);
+
+    await sendMessage(tester, 'sí');
+    expect(find.textContaining('¿Cuál es tu peso'), findsOneWidget);
+    await sendMessage(tester, '65');
+    expect(find.textContaining('dime tu altura'), findsOneWidget);
+    await sendMessage(tester, '1.70');
+    expect(find.textContaining('Tu IMC es 22.5'), findsOneWidget);
+  });
+
+  testWidgets('calcula y muestra el GET', (WidgetTester tester) async {
+    configureTestView(tester);
+    await tester.pumpWidget(const NutriApp());
+
+    await tester.tap(find.text('Calcular mi GET'));
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(find.textContaining('¿Quieres calcular el tuyo?'), findsOneWidget);
+
+    await sendMessage(tester, 'sí');
+    expect(find.textContaining('dime tu sexo'), findsOneWidget);
+    await sendMessage(tester, 'hombre');
+    await sendMessage(tester, '70');
+    await sendMessage(tester, '1.70');
+    await sendMessage(tester, '25');
+    await sendMessage(tester, '1');
+    await sendMessage(tester, '2');
+    await sendMessage(tester, 'no');
+    await tester.pumpAndSettle();
+    expect(
+      find.textContaining('Tu Gasto Energético Total (GET)'),
+      findsOneWidget,
+    );
   });
 }
