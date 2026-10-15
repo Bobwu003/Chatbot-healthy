@@ -298,13 +298,6 @@ class _NutriChatPageState extends State<NutriChatPage> {
     return keywords.any((word) => text.contains(word));
   }
 
-  void showHydrationDialog() {
-    showDialog<void>(
-      context: context,
-      builder: (_) => const HydrationDialog(),
-    );
-  }
-
   @override
   void dispose() {
     messageController.dispose();
@@ -352,16 +345,6 @@ class _NutriChatPageState extends State<NutriChatPage> {
             ),
           ),
         ),
-        actions: [
-          IconButton(
-            tooltip: 'Recordatorio de agua',
-            onPressed: showHydrationDialog,
-            icon: const Icon(
-              Icons.water_drop_rounded,
-              color: verde,
-            ),
-          ),
-        ],
       ),
       body: Column(
         children: [
@@ -596,7 +579,7 @@ class TypingIndicator extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
-          'Nutri está escribiendo...',
+          'Mr.Healthy escribiendo...',
           style: TextStyle(
             color: verde,
             fontSize: 12,
@@ -606,128 +589,4 @@ class TypingIndicator extends StatelessWidget {
       ),
     );
   }
-}
-
-class HydrationDialog extends StatefulWidget {
-  const HydrationDialog({super.key});
-
-  @override
-  State<HydrationDialog> createState() => _HydrationDialogState();
-}
-
-class _HydrationDialogState extends State<HydrationDialog>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController controller;
-  late final Animation<double> animation;
-
-  @override
-  void initState() {
-    super.initState();
-
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 4),
-    );
-
-    animation = Tween<double>(
-      begin: 0.75,
-      end: 1.15,
-    ).animate(
-      CurvedAnimation(
-        parent: controller,
-        curve: Curves.easeInOut,
-      ),
-    );
-
-    controller.repeat(reverse: true);
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: fondo,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25),
-      ),
-      title: const Text(
-        'Recordatorio de agua',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: verde,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text(
-            'Tomar agua suficiente ayuda a tu cuerpo a funcionar '
-            'mejor. Lleva una botella contigo y bebe pequeños '
-            'sorbos a lo largo del día.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: textoOscuro,
-              height: 1.5,
-            ),
-          ),
-          const SizedBox(height: 28),
-          AnimatedBuilder(
-            animation: animation,
-            builder: (context, child) {
-              return Transform.scale(
-                scale: animation.value,
-                child: Container(
-                  width: 105,
-                  height: 105,
-                  decoration: BoxDecoration(
-                    color: amarillo,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: verde.withValues(alpha: 0.15),
-                        blurRadius: 20,
-                        spreadRadius: 5,
-                      ),
-                    ],
-                  ),
-                  child: const Icon(
-                    Icons.water_drop_rounded,
-                    size: 45,
-                    color: verde,
-                  ),
-                ),
-              );
-            },
-          ),
-          const SizedBox(height: 24),
-          const Text(
-            'Meta sugerida: entre 6 y 8 vasos al día.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: textoOscuro,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-      actionsAlignment: MainAxisAlignment.center,
-      actions: [
-        FilledButton(
-          onPressed: () => Navigator.of(context).pop(),
-          style: FilledButton.styleFrom(
-            backgroundColor: verde,
-            foregroundColor: Colors.white,
-          ),
-          child: const Text('Cerrar'),
-        ),
-      ],
-    );
-  }
-  
 }

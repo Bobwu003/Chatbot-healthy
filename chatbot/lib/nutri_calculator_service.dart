@@ -2,6 +2,7 @@ class NutriCalculatorService {
   // Estados para IMC
   int pasoIMC = 0;
   double? pesoUsuario;
+  bool pesoIMCEnLibras = false;
 
   // Estados para GET
   int pasoGET = 0;
@@ -15,7 +16,6 @@ class NutriCalculatorService {
   double? gebGET;
   double? etaGET;
   double? taGET;
-  String? formulaUsadaGET;
   double? getTotalGET;
 
   void resetGET() {
@@ -30,13 +30,13 @@ class NutriCalculatorService {
     gebGET = null;
     etaGET = null;
     taGET = null;
-    formulaUsadaGET = null;
     getTotalGET = null;
   }
 
   void resetIMC() {
     pasoIMC = 0;
     pesoUsuario = null;
+    pesoIMCEnLibras = false;
   }
 
   String procesarMensaje(String input) {
@@ -49,12 +49,14 @@ class NutriCalculatorService {
       if (_containsAny(text, ['hombre', 'masculino'])) {
         sexoGET = 'hombre';
         pasoGET = 2;
-        return 'Perfecto. ¿Cuál es tu peso en kilogramos? Por ejemplo: 70';
+        return 'Perfecto. ¿Cuál es tu peso? Puedes escribirlo en kilogramos '
+            '(por ejemplo: 70 kg) o en libras (por ejemplo: 150 lb).';
       }
       if (_containsAny(text, ['mujer', 'femenino'])) {
         sexoGET = 'mujer';
         pasoGET = 2;
-        return 'Perfecto. ¿Cuál es tu peso en kilogramos? Por ejemplo: 60';
+        return 'Perfecto. ¿Cuál es tu peso? Puedes escribirlo en kilogramos '
+            '(por ejemplo: 60 kg) o en libras (por ejemplo: 130 lb).';
       }
       if (_containsAny(text, ['si', 'sí', 'claro', 'ok', 'dale'])) {
         return 'Perfecto. Primero dime tu sexo: escribe "hombre" o "mujer".';
@@ -67,30 +69,34 @@ class NutriCalculatorService {
     }
 
     if (pasoGET == 2) {
-      final peso = double.tryParse(text.replaceAll(',', '.'));
-      if (peso == null || peso <= 0 || peso > 500) {
-        return 'No entendí tu peso. Escríbelo en kilogramos, por ejemplo: 70';
+      final peso = _parseWeightInKilograms(text);
+      if (peso == null) {
+        return 'No entendí tu peso. Escríbelo en kg (por ejemplo: 70 kg) o '
+            'en libras (por ejemplo: 150 lb).';
       }
       pesoGET = peso;
       pasoGET = 3;
-      return 'Gracias. Ahora dime tu altura en metros, por ejemplo: 1.70';
+      return 'Gracias. Ahora dime tu altura en metros, centímetros o pies '
+          '(por ejemplo: 1.70 m, 170 cm o 5 pies 10 pulgadas).';
     }
 
     if (pasoGET == 3) {
-      double? altura = double.tryParse(text.replaceAll(',', '.'));
-      if (altura == null || altura <= 0) {
-        return 'No entendí tu altura. Escríbela en metros, por ejemplo: 1.70';
+      final altura = _parseHeightInMeters(text);
+      if (altura == null) {
+        return 'No entendí tu altura. Escríbela como 1.70 m, 170 cm o '
+            '5 pies 10 pulgadas.';
       }
-      if (altura > 3) altura = altura / 100;
       alturaGET = altura;
       pasoGET = 4;
-      return 'Gracias. Ahora dime tu edad en años, por ejemplo: 25';
+      return 'Gracias. Ahora dime tu edad en años, por ejemplo: 25 años';
     }
 
     if (pasoGET == 4) {
-      final edad = int.tryParse(text.replaceAll(RegExp(r'[^0-9]'), ''));
+      final edadMatch = RegExp(r'^\s*(\d+)\s*(?:años?)?\s*$').firstMatch(text);
+      final edad =
+          edadMatch == null ? null : int.tryParse(edadMatch.group(1)!);
       if (edad == null || edad <= 0 || edad > 120) {
-        return 'No entendí tu edad. Escríbela en años, por ejemplo: 25';
+        return 'No entendí tu edad. Escríbela en años, por ejemplo: 25 años';
       }
       edadGET = edad;
       pasoGET = 5;
@@ -125,96 +131,26 @@ class NutriCalculatorService {
 
       factorActividadGET = factor;
       porcentajeTAGET = porcentajeTA;
-      pasoGET = 6;
-      return '¿Qué fórmula prefieres usar para calcular tu GET?\n\n'
-          '1. Harris-Benedict (clásica)\n'
-          '2. Mifflin-St Jeor (moderna, más precisa)\n'
-          '3. Valencia (por rango de edad, desde 18 años)\n'
-          '4. FAO/OMS/UNU (solo menores de 3 años)\n'
-          '5. Gasto Energético por edad (peso × factor + constante)\n'
-          '6. Regla del pulgar (25-35 kcal/kg/día)\n\n'
-          'Responde con el número.';
-    }
-
-    if (pasoGET == 6) {
-      double? tmb;
-      String formulaUsada = '';
-
       final peso = pesoGET ?? 0;
       final alturaCm = (alturaGET ?? 0) * 100;
       final edad = edadGET ?? 0;
       final sexo = sexoGET ?? 'hombre';
-
-      if (_containsAny(text, ['1', 'harris', 'harris-benedict', 'clasica', 'clásica'])) {
-        if (sexo == 'hombre') {
-          tmb = 66.5 + (13.75 * peso) + (5.0 * alturaCm) - (6.78 * edad);
-        } else {
-          tmb = 655 + (9.56 * peso) + (1.85 * alturaCm) - (4.86 * edad);
-        }
-        formulaUsada = 'Harris-Benedict';
-      } else if (_containsAny(text, ['2', 'mifflin', 'mifflin-st jeor', 'mifflin st jeor'])) {
-        if (sexo == 'hombre') {
-          tmb = (10 * peso) + (6.25 * alturaCm) - (5 * edad) + 5;
-        } else {
-          tmb = (10 * peso) + (6.25 * alturaCm) - (5 * edad) - 161;
-        }
-        formulaUsada = 'Mifflin-St Jeor';
-      } else if (_containsAny(text, ['3', 'valencia'])) {
-        if (sexo == 'mujer') {
-          tmb = (edad <= 30) ? 11.02 * peso + 649 : (edad <= 60 ? 10.92 * peso + 677 : 10.98 * peso + 429);
-        } else {
-          tmb = (edad <= 30) ? 13.37 * peso + 747 : (edad <= 60 ? 13.08 * peso + 693 : 14.21 * peso + 429);
-        }
-        formulaUsada = 'Valencia';
-      } else if (_containsAny(text, ['4', 'fao', 'oms', 'onu'])) {
-        if (edad >= 3) {
-          return 'La fórmula FAO/OMS/UNU solo aplica a menores de 3 años.';
-        }
-        tmb = (sexo == 'hombre') ? 60.9 * peso - 54 : 61.0 * peso - 51;
-        formulaUsada = 'FAO/OMS/UNU';
-      } else if (_containsAny(text, ['5', 'por edad', 'gasto energetico por edad'])) {
-        if (sexo == 'hombre') {
-          tmb = edad < 3 ? 59.512 * peso + 30.4 : (edad <= 10 ? 22.706 * peso + 504.3 : (edad <= 18 ? 17.686 * peso + 658.2 : (edad <= 30 ? 15.057 * peso + 692.2 : (edad <= 60 ? 11.472 * peso + 873.1 : 11.711 * peso + 587.7))));
-        } else {
-          tmb = edad < 3 ? 58.317 * peso + 31.1 : (edad <= 10 ? 20.315 * peso + 485.9 : (edad <= 18 ? 13.384 * peso + 692.6 : (edad <= 30 ? 14.818 * peso + 486.6 : (edad <= 60 ? 8.126 * peso + 845.6 : 9.082 * peso + 658.5))));
-        }
-        formulaUsada = 'Gasto Energético por edad';
-      } else if (_containsAny(text, ['6', 'pulgar', 'regla del pulgar'])) {
-        final minimo = 25 * peso;
-        final maximo = 35 * peso;
-        resetGET();
-        return 'Según la Regla del Pulgar, tu GET está entre:\n• Mínimo: ${minimo.toStringAsFixed(0)} kcal/día\n• Máximo: ${maximo.toStringAsFixed(0)} kcal/día';
-      } else {
-        return 'No entendí tu elección. Responde un número del 1 al 6.';
-      }
+      final tmb = sexo == 'hombre'
+          ? (10 * peso) + (6.25 * alturaCm) - (5 * edad) + 5
+          : (10 * peso) + (6.25 * alturaCm) - (5 * edad) - 161;
 
       gebGET = tmb;
       etaGET = tmb * 0.10;
       taGET = tmb * (porcentajeTAGET ?? 0.30);
-      formulaUsadaGET = formulaUsada;
-
-      pasoGET = 7;
-      return '¿Estás en periodo de lactancia materna exclusiva? (Responde "sí" o "no")';
-    }
-
-    if (pasoGET == 7) {
-      int lactancia = 0;
-      if (_containsAny(text, ['si', 'sí', 'claro', 'ok', 'yes', 'dale'])) {
-        lactancia = 310;
-      } else if (_containsAny(text, ['no', 'nope', 'no gracias', 'nel'])) {
-        lactancia = 0;
-      } else {
-        return 'Por favor responde "sí" o "no" para continuar.';
-      }
 
       final geb = gebGET ?? 0;
       final eta = etaGET ?? 0;
       final ta = taGET ?? 0;
-      final getTotal = geb + eta + ta + lactancia;
+      final getTotal = geb + eta + ta;
       getTotalGET = getTotal;
       pasoGET = 8;
 
-      return 'Tu Gasto Energético Total (GET) usando $formulaUsadaGET es ${getTotal.toStringAsFixed(0)} kcal/día.\n\n¿Quieres ver la distribución de macronutrientes? (Responde "sí" o "no")';
+      return 'Tu Gasto Energético Total (GET) es ${getTotal.toStringAsFixed(0)} kcal/día.\n\n¿Quieres ver la distribución de macronutrientes? (Responde "sí" o "no")';
     }
 
     if (pasoGET == 8) {
@@ -257,29 +193,35 @@ class NutriCalculatorService {
     if (pasoIMC == 1) {
       if (_containsAny(text, ['si', 'sí', 'claro', 'ok', 'dale', 'yes'])) {
         pasoIMC = 2;
-        return '¿Cuál es tu peso en kilogramos? Por ejemplo: 65';
+        return '¿Cuál es tu peso? Puedes escribirlo en kilogramos '
+            '(por ejemplo: 65 kg) o en libras (por ejemplo: 150 lb).';
       }
       resetIMC();
       return 'Está bien.';
     }
 
     if (pasoIMC == 2) {
-      final peso = double.tryParse(text.replaceAll(',', '.'));
-      if (peso == null || peso <= 0 || peso > 500) {
-        return 'No entendí tu peso. Escríbelo en kilogramos, por ejemplo: 65';
+      final peso = _parseWeightInKilograms(text);
+      if (peso == null) {
+        return 'No entendí tu peso. Escríbelo en kg (por ejemplo: 65 kg) o '
+            'en libras (por ejemplo: 150 lb).';
       }
       pesoUsuario = peso;
+      pesoIMCEnLibras = _weightWasEnteredInPounds(text);
       pasoIMC = 3;
-      return 'Gracias. Ahora dime tu altura en metros, por ejemplo: 1.70';
+      return 'Gracias. Ahora dime tu altura en metros, centímetros o pies '
+          '(por ejemplo: 1.70 m, 170 cm o 5 pies 10 pulgadas).';
     }
 
     if (pasoIMC == 3) {
-      double? altura = double.tryParse(text.replaceAll(',', '.'));
-      if (altura == null || altura <= 0) {
-        return 'No entendí tu altura. Escríbela en metros, por ejemplo: 1.70';
+      final altura = _parseHeightInMeters(text);
+      if (altura == null) {
+        return 'No entendí tu altura. Escríbela como 1.70 m, 170 cm o '
+            '5 pies 10 pulgadas.';
       }
-      if (altura > 3) altura = altura / 100;
-      final imc = (pesoUsuario ?? 0) / (altura * altura);
+      final pesoCalculado = pesoUsuario ?? 0;
+      final imc = pesoCalculado / (altura * altura);
+      final pesoIngresadoEnLibras = pesoIMCEnLibras;
       resetIMC();
 
       String clasificacion = imc < 18.5
@@ -290,7 +232,11 @@ class NutriCalculatorService {
                   ? 'Sobrepeso'
                   : 'Obesidad';
 
-      return 'Tu IMC es ${imc.toStringAsFixed(1)} kg/m², lo que corresponde a: $clasificacion.';
+      final pesoConvertido = pesoIngresadoEnLibras
+          ? 'El peso convertido es ${pesoCalculado.toStringAsFixed(1)} kg. '
+          : '';
+      return '${pesoConvertido}Tu IMC es ${imc.toStringAsFixed(1)} kg/m², '
+          'lo que corresponde a: $clasificacion.';
     }
 
     if (_containsAny(text, ['get', 'gasto energetico', 'gasto energético', 'calorias diarias'])) {
@@ -306,8 +252,68 @@ class NutriCalculatorService {
     return '';
   }
 
+  double? _parseHeightInMeters(String input) {
+    final feetAndInchesMatch = RegExp(
+      r'''^\s*(\d+)\s*(?:ft|feet|pies?|')\s*(\d+(?:[.,]\d+)?)\s*(?:in|inches|pulgadas?|")\s*$''',
+    ).firstMatch(input.toLowerCase());
+    if (feetAndInchesMatch != null) {
+      final feet = double.parse(feetAndInchesMatch.group(1)!);
+      final inches = double.parse(
+        feetAndInchesMatch.group(2)!.replaceAll(',', '.'),
+      );
+      if (feet <= 0 || inches >= 12) return null;
+      final heightInMeters = (feet * 12 + inches) * 0.0254;
+      return heightInMeters <= 3 ? heightInMeters : null;
+    }
+
+    final feetMatch = RegExp(r"^\s*(\d+(?:[.,]\d+)?)\s*(?:ft|feet|pies?|')\s*$")
+        .firstMatch(input.toLowerCase());
+    if (feetMatch != null) {
+      final feet = double.tryParse(feetMatch.group(1)!.replaceAll(',', '.'));
+      if (feet == null || feet <= 0) return null;
+      final heightInMeters = feet * 0.3048;
+      return heightInMeters <= 3 ? heightInMeters : null;
+    }
+
+    final match = RegExp(r'^\s*(\d+(?:[.,]\d+)?)\s*(cm|m)?\s*$')
+        .firstMatch(input.toLowerCase());
+    if (match == null) return null;
+
+    final value = double.tryParse(match.group(1)!.replaceAll(',', '.'));
+    if (value == null || value <= 0) return null;
+
+    final unit = match.group(2);
+    final heightInMeters =
+        unit == 'cm' || (unit == null && value > 3) ? value / 100 : value;
+    if (heightInMeters > 3) return null;
+
+    return heightInMeters;
+  }
+
+  double? _parseWeightInKilograms(String input) {
+    final match = RegExp(
+      r'^\s*(\d+(?:[.,]\d+)?)\s*(kg|kgs|kilogramos?|kilos?|lb|lbs|libras?)?\s*$',
+    ).firstMatch(input.toLowerCase());
+    if (match == null) return null;
+
+    final value = double.tryParse(match.group(1)!.replaceAll(',', '.'));
+    if (value == null || value <= 0) return null;
+
+    final unit = match.group(2);
+    final weightInKilograms =
+        unit == 'lb' || unit == 'lbs' || unit == 'libra' || unit == 'libras'
+            ? value * 0.45359237
+            : value;
+    if (weightInKilograms > 500) return null;
+
+    return weightInKilograms;
+  }
+
+  bool _weightWasEnteredInPounds(String input) {
+    return RegExp(r'(?:lb|lbs|libras?)\s*$').hasMatch(input.toLowerCase());
+  }
+
   bool _containsAny(String text, List<String> keywords) {
     return keywords.any((word) => text.contains(word));
   }
-  
 }
