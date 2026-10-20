@@ -156,4 +156,47 @@ void main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('responde con apoyo cuando el usuario no puede con un desafío',
+      (WidgetTester tester) async {
+    configureTestView(tester);
+    await tester.pumpWidget(const NutriApp());
+
+    await sendMessage(tester, 'no puedo con el desafío');
+
+    expect(
+      find.textContaining('Te sugiero ir a ajustes'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('metas temporales'), findsNothing);
+  });
+
+  testWidgets('explica qué son los desafíos', (WidgetTester tester) async {
+    configureTestView(tester);
+    await tester.pumpWidget(const NutriApp());
+
+    await sendMessage(tester, '¿Qué son los desafíos?');
+
+    expect(
+      find.textContaining('Los desafíos son metas temporales'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('experiencia (XP) adicional'), findsOneWidget);
+  });
+
+  testWidgets(
+      'prioriza la respuesta de comidas pesadas antes de entrenar',
+      (WidgetTester tester) async {
+    configureTestView(tester);
+    await tester.pumpWidget(const NutriApp());
+
+    await sendMessage(tester, 'comer antes de entrenar');
+
+    expect(find.textContaining('Evita comidas pesadas'), findsOneWidget);
+    expect(find.textContaining('Depende de la duración'), findsNothing);
+
+    await sendMessage(tester, '¿Es mejor comer antes o después de entrenar?');
+
+    expect(find.textContaining('Depende de la duración'), findsOneWidget);
+  });
 }

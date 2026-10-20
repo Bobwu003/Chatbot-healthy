@@ -95,7 +95,7 @@ class _NutriChatPageState extends State<NutriChatPage> {
     'Explicar un habito',
     'Calcular mi IMC',
     'Calcular mi GET',
-    '¿Puedo ver mi historial de estadísticas y gráficos de la semana pasada?'
+    
     
   ];
 
@@ -158,8 +158,6 @@ class _NutriChatPageState extends State<NutriChatPage> {
       '9. Reduce poco a poco la sal y los ultraprocesados; lee las etiquetas.',
       '10. Cambia un solo hábito a la vez y repítelo 3-4 semanas hasta que sea automático.',
     ];
-
-
     //mijo
     if (_containsAny(text, [
       '¿que pasa si no cumplo un habito diario?',
@@ -209,6 +207,28 @@ class _NutriChatPageState extends State<NutriChatPage> {
           
         }
 
+        // Respuesta de apoyo antes de la coincidencia general de desafíos.
+        if (_containsAny(text, [
+          'no puedo con el desafio',
+          'no puedo con el desafío',
+          'no puedo con el reto',
+          'no lo logro',
+          'no puedo hacerlo',
+          'es demasiado para mi',
+          'es demasiado para mí',
+          'me cuesta mucho',
+          'me cuesta demasiado',
+          'es muy pesado',
+          'es muy complicado',
+          'muy complicado',
+          'muy exigente',
+          'quiero rendirme',
+          'me quiero rendir',
+        ])) {
+          return 'Te sugiero ir a ajustes para cambiar la dificultad de tus '
+              'desafíos. También puedes retirarte o cancelar el desafío.';
+        }
+
         //mijo
       if (_containsAny(text, [
       '¿que son los desafios?',
@@ -229,8 +249,8 @@ class _NutriChatPageState extends State<NutriChatPage> {
       'Desafíos',
       'Desafio',
       ])) {
-      return 'son metas temporales que otorga. '
-          'experiencia extra al completarlos, . ';
+      return 'Los desafíos son metas temporales que la aplicación te propone. '
+          'Al completarlos, obtienes experiencia (XP) adicional.';
           
           
     }
@@ -546,6 +566,22 @@ class _NutriChatPageState extends State<NutriChatPage> {
           
     }
 
+    // 1. Comidas pesadas
+    if (_containsAny(text, [
+      'comer antes de entrenar',
+      'comida pesada antes de hacer ejercicio',
+      'que no comer antes de entrenar',
+      'alimentos a evitar antes del gym',
+      'comida grasosa antes de ejercicio',
+      'comer mucho antes de entrenar',
+      'evitar fritos antes de entrenar',
+      'comer antes de correr',
+      'que no debo comer antes del ejercicio',
+      'comida antes del gimnasio',
+    ])) {
+      return 'Evita comidas pesadas, grasosas, fritas o muy abundantes 2 a 3 horas antes de entrenar. Pueden causar pesadez, náuseas y calambres. Mejor una comida ligera con carbohidratos y algo de proteína.';
+    }
+
     if (text.contains('entren') &&
         _containsAny(text, ['antes', 'después', 'despues'])) {
       return 'Depende de la duración e intensidad del ejercicio y de '
@@ -622,6 +658,10 @@ class _NutriChatPageState extends State<NutriChatPage> {
       'como funciona un hábito',
       'como funciona un habito saludable',
       'como funciona un hábito saludable',
+      'explicar un habito',
+      'explicar un hábito',
+      'Explicar un hábito',
+      'Explicar un habito',
     ])) {
       return 'Los hábitos saludables de alimentación y actividad física '
           'son fundamentales para mantener una buena salud y prevenir '
@@ -691,6 +731,168 @@ class _NutriChatPageState extends State<NutriChatPage> {
           '$consejo\n\n'
           'Escribe "más hábitos" si quieres ver los diez consejos.';
     }
+
+    
+
+      //giovanni
+
+     //Sugerencia en caso de que al usuario se le haga dificil
+    //un desafío
+    if (_containsAny(text, [
+  'no puedo con el desafio',
+  'no puedo con el desafío',
+  'no puedo con el reto',
+  'no lo logro',
+  'no puedo hacerlo',
+  'es demasiado para mi',
+  'es demasiado para mí',
+  'me cuesta mucho',
+  'me cuesta demasiado',
+  'es muy pesado',
+  'es muy complicado',
+  'muy complicado',
+  'muy exigente',
+  'quiero rendirme',
+  'me quiero rendir',
+])) {
+  return 'Te sugiero ir a ajustes para cambiar la dificultad de tus '
+      'desafíos, también puedes retirarte o cancelar el desafío.';
+}
+
+
+
+    //Fuentes de Grasas Saludables
+    if (_containsAny(text, [
+  'grasas saludables',
+  'grasa saludable',
+  'grasas buenas',
+  'grasa buena',
+  'fuentes de grasa',
+  'fuentes de grasas',
+  'alimentos con grasa saludable',
+  'alimentos con grasas saludables',
+  'que grasas puedo comer',
+  'qué grasas puedo comer',
+  'grasas sanas',
+  'aceite saludable',
+  'aceites saludables',
+])) {
+  return 'Algunas fuentes de grasas saludables son:\n\n'
+      '• Aguacate\n'
+      '• Aceite de oliva extra virgen\n'
+      '• Nueces, almendras, cacahuates y pistaches\n'
+      '• Semillas de chía, linaza y calabaza\n'
+      '• Pescados grasos: salmón, sardina, atún y caballa\n'
+      '• Aceitunas\n'
+      '• Huevo\n\n'
+      'Consúmelas con moderación: aunque son saludables, aportan '
+      'muchas calorías. Una porción pequeña al día es suficiente.';
+}
+
+// 2. Alcohol
+if (_containsAny(text, [
+  'alcohol antes de entrenar', 'beber antes de hacer ejercicio',
+  'cerveza antes del gym', 'tomar alcohol y entrenar',
+  'resaca y ejercicio', 'entrenar con resaca', 'alcohol y rendimiento',
+  'evitar alcohol antes de ejercicio', 'bebidas alcoholicas y deporte',
+  'puedo entrenar despues de tomar',
+])) {
+  return 'Evita el alcohol antes de entrenar (y la noche anterior). Deshidrata, reduce la coordinación, la fuerza y los reflejos, y aumenta el riesgo de lesiones.';
+}
+
+// 3. Exceso de cafeína
+if (_containsAny(text, [
+  'cafe antes de entrenar', 'cafeina antes del ejercicio',
+  'bebidas energeticas antes de entrenar', 'exceso de cafeina gym',
+  'pre entreno demasiado', 'preworkout riesgos', 'energizantes y ejercicio',
+  'cuanta cafeina antes de entrenar', 'taquicardia por pre entreno',
+  'redbull antes de entrenar',
+])) {
+  return 'Evita el exceso de cafeína y las bebidas energéticas. Demasiada puede causar taquicardia, temblores, ansiedad y malestar estomacal. Si la usas, que sea en dosis moderadas.';
+}
+
+// 4. Llegar deshidratado
+if (_containsAny(text, [
+  'agua antes de entrenar', 'deshidratacion y ejercicio',
+  'no beber agua antes del gym', 'hidratarse antes de hacer ejercicio',
+  'cuanta agua tomar antes de entrenar', 'entrenar sin tomar agua',
+  'sed durante el ejercicio', 'calambres por falta de agua',
+  'beber mucha agua antes de correr', 'hidratacion antes del entrenamiento',
+])) {
+  return 'No llegues deshidratado ni tampoco tomes grandes cantidades de golpe. Bebe agua de forma gradual durante el día y un poco (250-500 ml) antes de entrenar.';
+}
+
+// 5. Saltarse el calentamiento
+if (_containsAny(text, [
+  'entrenar sin calentar', 'no calentar antes de ejercicio',
+  'calentamiento antes del gym', 'es necesario calentar',
+  'lesiones por no calentar', 'calentamiento previo',
+  'empezar directo con pesas', 'saltarse el calentamiento',
+  'como calentar antes de entrenar', 'evitar lesiones al empezar',
+])) {
+  return 'No te saltes el calentamiento. De 5 a 10 minutos de movilidad y cardio suave preparan músculos y articulaciones y reducen el riesgo de lesiones.';
+}
+
+// 6. Estiramientos estáticos largos
+if (_containsAny(text, [
+  'estirar antes de entrenar', 'estiramientos antes del ejercicio',
+  'estiramiento estatico antes de pesas', 'estirar en frio',
+  'estiramientos largos antes de correr', 'estirar antes o despues',
+  'estiramiento dinamico', 'estirar antes del gym',
+  'perder fuerza por estirar', 'estiramientos previos al entrenamiento',
+])) {
+  return 'Evita los estiramientos estáticos largos (más de 30-60 s) antes de entrenar: pueden reducir temporalmente la fuerza y la potencia. Prefiere estiramientos dinámicos y deja los estáticos para el final.';
+}
+
+// 7. Entrenar sin dormir bien
+if (_containsAny(text, [
+  'entrenar sin dormir', 'poco sueno y ejercicio', 'dormir antes de entrenar',
+  'cansancio y gym', 'falta de descanso entrenamiento',
+  'entrenar con sueno', 'desvelado y ejercicio', 'dormir mal rendimiento',
+  'insomnio y entrenar', 'horas de sueno para entrenar',
+])) {
+  return 'Evita entrenar intenso con muy poco sueño. Baja el rendimiento, aumenta el riesgo de lesión y afecta la recuperación. Si dormiste mal, baja la intensidad o descansa.';
+}
+
+// 8. Analgésicos preventivos
+if (_containsAny(text, [
+  'ibuprofeno antes de entrenar', 'pastillas para el dolor y ejercicio',
+  'antiinflamatorios antes del gym', 'tomar analgesicos antes de correr',
+  'paracetamol antes de entrenar', 'medicamentos antes de hacer ejercicio',
+  'tomar pastilla para no sentir dolor', 'aines y deporte',
+  'naproxeno y ejercicio', 'analgesico preventivo deporte',
+])) {
+  return 'Evita tomar analgésicos o antiinflamatorios "preventivamente" antes de entrenar. Pueden enmascarar el dolor, afectar estómago y riñones, y hacerte ignorar una lesión. Consulta a un médico si los necesitas.';
+}
+
+// 9. Entrenar lesionado o enfermo
+if (_containsAny(text, [
+  'entrenar con fiebre', 'hacer ejercicio enfermo', 'entrenar con dolor',
+  'entrenar lesionado', 'ejercicio con gripe', 'entrenar con mareo',
+  'hacer ejercicio con resfriado', 'dolor de pecho al entrenar',
+  'cuando no debo entrenar', 'entrenar con malestar',
+])) {
+  return 'Evita entrenar con fiebre, mareos, dolor de pecho, vómito o dolor articular agudo. Descansa y consulta a un médico si los síntomas persisten.';
+}
+
+// 10. Ropa y calzado inadecuados
+if (_containsAny(text, [
+  'ropa para entrenar', 'zapatos para hacer ejercicio',
+  'calzado inadecuado gym', 'que no usar para entrenar',
+  'ropa incomoda ejercicio', 'tenis para correr', 'ropa de algodon sudor',
+  'evitar ampollas al entrenar', 'ropa y lesiones deportivas',
+  'que ponerme para entrenar',
+])) {
+  return 'Evita ropa muy ajustada, que no transpire o calzado gastado o inadecuado. Pueden causar rozaduras, ampollas, sobrecalentamiento y lesiones en rodillas y tobillos.';
+}
+
+//giovanni
+
+
+
+
+
+
     
     if (_containsAny(text, [
       'hola',
@@ -739,6 +941,13 @@ class _NutriChatPageState extends State<NutriChatPage> {
         'alimento, una comida específica, hidratación o hábitos '
         'saludables?';
   }
+
+
+
+  
+
+
+
 
   bool _containsAny(String text, List<String> keywords) {
     final normalized = text.toLowerCase();
