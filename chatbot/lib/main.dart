@@ -91,9 +91,12 @@ class _NutriChatPageState extends State<NutriChatPage> {
     '¿Cómo gano experiencia (XP) y subo de nivel?',
     'Ideas de snacks saludables para la tarde',
     'Sugerir un nuevo hábito saludable',
+    'Más hábitos',
     'Explicar un habito',
     'Calcular mi IMC',
     'Calcular mi GET',
+    '¿Puedo ver mi historial de estadísticas y gráficos de la semana pasada?'
+    
   ];
 
   void sendMessage([String? predefinedText]) {
@@ -143,16 +146,240 @@ class _NutriChatPageState extends State<NutriChatPage> {
 
   String getNutriResponse(String input) {
     final text = input.toLowerCase();
+    const List<String> consejosHabitos = [
+      '1. Bebe un vaso de agua al despertar y mantén una botella a la mano durante el día.',
+      '2. Añade una porción de verdura o fruta a cada comida.',
+      '3. Camina al menos 20-30 minutos al día; empieza con 10 si te cuesta.',
+      '4. Duerme entre 7 y 9 horas y trata de acostarte a la misma hora.',
+      '5. Come despacio y sin pantallas para notar cuándo ya estás satisfecho.',
+      '6. Planea tus comidas de la semana y haz tu lista de compras con tiempo.',
+      '7. Cambia un refresco o jugo azucarado al día por agua o agua con limón.',
+      '8. Ten a la vista snacks saludables: fruta, nueces o yogur natural.',
+      '9. Reduce poco a poco la sal y los ultraprocesados; lee las etiquetas.',
+      '10. Cambia un solo hábito a la vez y repítelo 3-4 semanas hasta que sea automático.',
+    ];
+
+
+    //mijo
+    if (_containsAny(text, [
+      '¿que pasa si no cumplo un habito diario?',
+      '¿qué pasa si no cumplo un habito diario?',
+      '¿Qué pasa si no cumplo un habito diario?',
+      '¿que pasa si no completo los habitos diarios?',
+      '¿qué pasa si no completo los habitos diarios?',
+      '¿Qué pasa si no completo los habitos diarios?',
+      '¿Que pasa si no completo los habitos diarios?',
+      'que pasa si no cumplo un habito diario?',
+      'que pasa si no cumplo un habito diario',
+      'Que pasa si no cumplo un habito diario?',
+      'Que pasa si no cumplo un habito diario',
+      'Que pasa si no cumplo un habito diario??',
+      'si no cumplo un habito diario que pasa??',
+      'si no cumplo un habito diario que pasa?',
+      'si no cumplo un habito diario que pasa',
+      'Si no cumplo un habito diario que pasa??',
+      'Si no cumplo un habito diario que pasa?',
+      'Si no cumplo los habitos diarios que pasa??',
+      'Si no cumplo los habitos diarios que pasa?',
+      'si no cumplo los habitos diarios que pasa',
+      'Si no cumplo los habitos diarios que pasa?',
+      'Si no cumplo los habitos diarios que pasa??',
+      'Si no cumplo los habitos diarios que sucede??',
+      'Si no cumplo los habitos diarios que sucede?',
+      'Si no cumplo los habitos diarios que sucede',
+      'si no cumplo los habitos diarios que sucede?',
+      'si no cumplo los habitos diarios que sucede??',
+      'que pasa si no cumplo un habito diario??',
+      'que pasa si no realizo un habito diario?',
+      'que pasa si no realizo un habito diario??',
+      'que pasa si no realizo un habito diario',
+      '¿Qué pasa si no realizo un habito diario?',
+      '¿Qué pasa si no realizo un habito diario??',
+      '¿que pasa si no realizo un habito diario?',
+      '¿que pasa si no realizo un habito diario??',
+      '¿Que pasa si no realizo un habito diario?',
+      '¿Que pasa si no realizo un habito diario??',
+      
+
+      ])) {
+      return 'Puedes pasar al siguiente objetivo diario  . '
+          'solo pierdes XP que acumulas en totaldel habito o de los  . '
+          'habitos que fallaste.';
+          
+          
+        }
+
+        //mijo
+      if (_containsAny(text, [
+      '¿que son los desafios?',
+      '¿qué son los desafios?',
+      '¿Qué son los desafios?',
+      '¿Que son los desafios?',
+      'que son los desafios?',
+      'que son los desafios',
+      'Que son los desafios?',
+      'Que son los desafios',
+      'Qué son los desafios?',
+      'Qué son los desafios',
+      'Qué son los desafios??',
+      'desafios',
+      'desafíos',
+      'desafio',
+      'Desafios',
+      'Desafíos',
+      'Desafio',
+      ])) {
+      return 'son metas temporales que otorga. '
+          'experiencia extra al completarlos, . ';
+          
+          
+    }
+    //mijo
+
+    //mijo
+   if (_containsAny(text, [
+      '¿Dónde puedo registrar un habito?',
+      '¿dónde puedo registrar un habito?',
+      '¿Donde puedo registrar un habito?',
+      '¿donde puedo registrar un habito?',
+      'registrar un habito',
+      'Registrar un habito',
+      'donde puedo registrar un habito?',
+      'Donde puedo registrar un habito?',
+      'donde puedo registrar un habito??'
+      'Donde puedo registrar un habito??',
+
+      ])) {
+      return 'En la parte de Tu mision de hoy. '
+          'o en la seccion de habitos donde puedes. '
+          'registrarlas.';
+          
+          
+    }
+    //mijo
+
+
+    //mijo
+   if (_containsAny(text, [
+      '¿Donde cambio la contraseña y el correo electronico?',
+      '¿dónde cambio la contraseña y el correo electronico?',
+      '¿donde cambio la contraseña y el correo electronico?',
+      '¿Dónde cambio la contraseña y el correo electronico?',
+      '¿donde cambio la contraseña y el correo electronico de mi cuenta?',
+      '¿Donde cambio la contraseña y el correo electronico de mi cuenta?',
+      '¿dónde cambio la contraseña y el correo electronico de mi cuenta?',
+      '¿Dónde cambio la contraseña y el correo electronico de mi cuenta?',
+      '¿donde cambio la contraseña de mi cuenta?',
+      '¿dónde cambio la contraseña de mi cuenta?',
+      '¿Dónde cambio la contraseña de mi cuenta?',
+      '¿Donde cambio la contraseña de mi cuenta?',
+      '¿Donde cambio el correo electronico de mi cuenta?',
+      '¿donde cambio el correo electronico de mi cuenta?',
+      '¿dónde cambio el correo electronico de mi cuenta?',
+      '¿Dónde cambio el correo electronico de mi cuenta?',
+      'cambiar contraseña y correo electronico',
+      'Cambiar contraseña y correo electronico',
+      'cambiar contraseña y correo electronico de mi cuenta',
+      'cambiar contraseña de mi cuenta',
+      'Cambiar contraseña de mi cuenta',
+      'cambiar correo electronico de mi cuenta',
+      'Cambiar correo electronico de mi cuenta',
+      'cambiar contraseña'
+      'Cambiar contraseña',
+      'cambiar correo electronico',
+      'Cambiar correo electronico',
+      'donde cambio la contraseña y el correo electronico??',
+      'donde cambio la contraseña y el correo electronico de mi cuenta?',
+      '¿Donde cambio la contraseña?',
+      '¿Dónde cambio la contraseña?',
+      '¿donde cambio la contraseña?',
+      '¿dónde cambio la contraseña?',
+      '¿Donde cambio el correo electronico?',
+      '¿Dónde cambio el correo electronico?',
+      '¿donde cambio el correo electronico?',
+      '¿dónde cambio el correo electronico?',
+      'cambiar email y contraseña',
+      'Cambiar email y contraseña',
+      'cambiar email y contraseña de mi cuenta',
+      'cambiar email de mi cuenta',
+      'Cambiar email de mi cuenta',
+      'Cambiar correo',
+      'cambiar correo',
+      '¿Donde cambio el correo de mi cuenta?',
+      '¿Dónde cambio el correo de mi cuenta?',
+      '¿donde cambio el correo de mi cuenta?',
+      '¿dónde cambio el correo de mi cuenta?',
+      'cambiar el correo de mi cuenta',
+      'Cambiar el correo de mi cuenta',
+      '¿donde cambio el email de mi cuenta?',
+      '¿Dónde cambio el email de mi cuenta?',
+      '¿Donde cambio el email de mi cuenta?',
+      '¿dónde cambio el email de mi cuenta?',
+      'cambiar el email de mi cuenta',
+      'Cambiar el email de mi cuenta',
+      'cambiar la contraseña',
+      'Cambiar la contraseña',
+      'cambiar email',
+      'Cambiar email',
+
+      ])) {
+      return 'En la parte de perfil en la parte. '
+          'inferior derecha entra a configuracion. '
+          'hay podras editar tus datos personales.';
+          
+          
+    }
+    //mijo
+
 
     
+
+  
+
+
+
+    if (_containsAny(text, [
+      'explicar un habito',
+      'Habito',
+      'Hábito',
+      'habito',
+      'hábito',
+      'explica un habito',
+      'explicar un hábito',
+      'explica un hábito',
+      'explicar habito',
+      'explica habito',
+      'explicar un hábito saludable',
+      'explica un hábito saludable',
+      'explicar el habito',
+      'explica el hábito',
+      'explicar un habito saludable',
+      'explica un habito saludable',
+      'Explicar un habito',
+      'Explica un habito',
+      'Explicar un hábito',
+      'Explica un hábito',
+      'Explicar habito',
+      'Explica habito',
+      'Explicar un hábito saludable',
+      'Explica un hábito saludable',
+      'Explicar el habito',
+      'Explica el hábito',
+      'Explicar un habito saludable',
+      'Explica un habito saludable',
+    ])) {
+      return 'Un hábito es una conducta que se repite casi sin pensarlo y que se vuelve automática con el tiempo. '
+          'Por ejemplo, caminar 20 minutos al día o beber agua al despertar. '
+          'Los hábitos saludables se fortalecen cuando los repites de forma constante, con una rutina clara y poco a poco. '
+          'Eso hace que sea más fácil mantenerlos y que se conviertan en parte de tu estilo de vida.';
+    }
 
     if (_containsAny(text, [
       'Experiencia',
       'experiencia',
-      'xp ',
+      'xp',
       'XP',
       'Xp',
-      'Azucar',
       'Nivel',
       'nivel',
       'subir de nivel',
@@ -168,8 +395,16 @@ class _NutriChatPageState extends State<NutriChatPage> {
     if (_containsAny(text, [
       'Fotografía de alimentos',
       'fotografia',
+      'Fotografía',
+      'fotografía',
       'Evidencias',
       'evidencias',
+      'Fotografias',
+      'fotografias',
+      'Fotografías',
+      'fotografías',
+      'Foto',
+      'foto',
       
     ])) {
       return 'La evidencias fotograficas funcionan por medio, '
@@ -185,8 +420,12 @@ class _NutriChatPageState extends State<NutriChatPage> {
     if (_containsAny(text, [
       'calorías',
       'calorias',
+      'Calorías',
+      'Calorias',
       'cuántas calorías',
       'cuantas calorias',
+      'Cuántas calorías',
+      'Cuantas calorias',
     ])) {
       return 'Las calorías que necesitas varían según tu edad, sexo, '
           'peso y nivel de actividad. En lugar de contar cada '
@@ -205,6 +444,14 @@ class _NutriChatPageState extends State<NutriChatPage> {
       'comidas con proteina', //Modificación. Añadir línea
       'comidas proteicas', //Modificación. Añadir línea
       'comidas con proteína', //Modificación. Añadir línea
+      'Proteína',
+      'Proteina',
+      'Alimentos con proteína',
+      'Alimentos con proteina',
+      'Alimentos proteicos', //Modificación. Añadir línea
+      'Comidas con proteina', //Modificación. Añadir línea
+      'Comidas proteicas', //Modificación. Añadir línea
+      'Comidas con proteína', //Modificación. Añadir línea
     ])) {
       return 'Buenas fuentes de proteína: huevo, pollo, pescado, '
           'carne magra, frijoles, lentejas, garbanzos, tofu, yogur '
@@ -233,9 +480,14 @@ class _NutriChatPageState extends State<NutriChatPage> {
     if (_containsAny(text, [
       'snack',
       'snacks',
+      'Snack',
+      'Snacks',
       'colación',
       'colacion',
       'entre comidas',
+      'Colación',
+      'Colacion',
+      'Entre comidas',
     ])) {
       return 'Ideas de snacks saludables: fruta fresca, yogur '
           'natural, un puñado de nueces o almendras, zanahoria o '
@@ -246,6 +498,12 @@ class _NutriChatPageState extends State<NutriChatPage> {
 
     if (_containsAny(text, [
       'frutas',
+      'Frutas',
+      'Verduras',
+      'Frutas y verduras',
+      'Frutas y vegetables',
+      'Verduras',
+      'Vegetables',
       'verduras',
       'frutas y verduras',
       'porciones de fruta',
@@ -253,6 +511,19 @@ class _NutriChatPageState extends State<NutriChatPage> {
       'porcion de fruta', //Modificación. Añadir línea
       'porción de fruta', //Modificación. Añadir línea
       'frutas y vegetales', //Modificación. Añadir línea
+      'porcion de verduras',
+      'Frutas y vegetables',
+      'Porciones de frutas',
+      'porciones de frutas',
+      'Porcion de verduras',
+      'Porcion de frutas',
+      'Porción de verduras',
+      'porción de verduras',
+      'porciones de verduras',
+      'Porciones de verduras',
+      'Porciones de verdura',
+      'Porción de frutas',
+      'Porcion de fruta',
     ])) {
       return 'Se recomienda comer al menos 5 porciones de frutas y '
           'verduras al día. Varía los colores: verde, rojo, naranja '
@@ -265,9 +536,9 @@ class _NutriChatPageState extends State<NutriChatPage> {
 
     if (_containsAny(text, [
       'Retroalimentacion',
-      'Retroalimentacion',
       'retroalimentación',
       'retroalimentacion',
+      'Retroalimentación',
     ])) {
       return 'Permite analizar el progreso registrado, '
           'y generar sugerencias de habitos acordes, '
@@ -298,6 +569,17 @@ class _NutriChatPageState extends State<NutriChatPage> {
       'evitar el aceite',
       'alimentos sin aceite',
       'comidas sin aceite',
+      'Cocina sin aceite',
+      'Recetas sin aceite',
+      'Cocinar sin aceite',
+      'Alternativas al aceite para cocinar',
+      'Remplazar el aceite',
+      'Sin aceite',
+      'Evitar aceite',
+      'Evitar el aceite',
+      'Alimentos sin aceite',
+      'Comidas sin aceite',
+      
     ])) {
       return 'Las técnicas de cocina sin aceite permiten preparar '
           'alimentos de forma más saludable, reduciendo el uso de grasas '
@@ -313,14 +595,33 @@ class _NutriChatPageState extends State<NutriChatPage> {
 
     //Explicar un habito
     if (_containsAny(text, [
+      'habito',
+      'hábito',
+      'Habito',
+      'Hábito',
       'como funciona un habito',
       'como funciona un hábito',
-      'explicar un habito',
-      'explicar un hábito',
+      'como funciona un habito saludable',
+      'como funciona un hábito saludable',
+      'explica un habito',
+      'explica un hábito',
       'de los hábitos',
       'sobre los hábitos',
       'de los habitos',
       'sobre los habitos',
+      'Como funciona un habito',
+      'Como funciona un hábito',
+      'Como funciona un habito saludable',
+      'Como funciona un hábito saludable',
+      'Explica un habito',
+      'Explica un hábito',
+      'De los hábitos',
+      'Sobre los hábitos',
+      'sobre los habitos',
+      'Como funciona un habito',
+      'como funciona un hábito',
+      'como funciona un habito saludable',
+      'como funciona un hábito saludable',
     ])) {
       return 'Los hábitos saludables de alimentación y actividad física '
           'son fundamentales para mantener una buena salud y prevenir '
@@ -334,18 +635,27 @@ class _NutriChatPageState extends State<NutriChatPage> {
     //////////////////
     //Sugerencia de nuevos habitos
 
-    const List<String> _consejosHabitos = [
-      '1. Bebe un vaso de agua al despertar y mantén una botella a la mano durante el día.',
-      '2. Añade una porción de verdura o fruta a cada comida.',
-      '3. Camina al menos 20-30 minutos al día; empieza con 10 si te cuesta.',
-      '4. Duerme entre 7 y 9 horas y trata de acostarte a la misma hora.',
-      '5. Come despacio y sin pantallas para notar cuándo ya estás satisfecho.',
-      '6. Planea tus comidas de la semana y haz tu lista de compras con tiempo.',
-      '7. Cambia un refresco o jugo azucarado al día por agua o agua con limón.',
-      '8. Ten a la vista snacks saludables: fruta, nueces o yogur natural.',
-      '9. Reduce poco a poco la sal y los ultraprocesados; lee las etiquetas.',
-      '10. Cambia un solo hábito a la vez y repítelo 3-4 semanas hasta que sea automático.',
-    ];
+    if (_containsAny(text, [
+      'mas habitos',
+      'más habitos',
+      'mas habito',
+      'más habito',
+      'mas habitos por favor',
+      'más habitos por favor',
+      'Mas habitos',
+      'Más habitos',
+      'Mas hábitos',
+      'Mas habito',
+      'Más habito',
+      'Mas habitos por favor',
+      'Más habitos por favor',
+    ])) {
+      final random = Random();
+      final consejo = consejosHabitos[random.nextInt(consejosHabitos.length)];
+      return '¡Claro! Aquí tienes otro hábito saludable:\n\n'
+          '$consejo\n\n'
+          'Si quieres, escribe nuevamente "más hábitos" para ver otro consejo.';
+    }
 
     if (_containsAny(text, [
       'nuevo habito',
@@ -359,172 +669,28 @@ class _NutriChatPageState extends State<NutriChatPage> {
       'recomiéndame un hábito',
       'recomiendame un habito',
       'sugiereme un habito',
+      'sugerir un nuevo hábito saludable',
+      'sugerir un nuevo habito saludable',
+      'Nuevo habito',
+      'Sugiere un habito',
+      'Sugerencia de un habito',
+      'Nuevo hábito',
+      'Ejemplo de habito',
+      'Ejemplo de hábito',
+      'Recomendación de hábito',
+      'Sugiéreme un hábito',
+      'Recomiéndame un hábito',
+      'Recomiendame un habito',
+      'Sugiereme un habito',
+      'Sugerir un nuevo hábito saludable',
+      'Sugerir un nuevo habito saludable',
     ])) {
       final random = Random();
-      final consejo = _consejosHabitos[random.nextInt(_consejosHabitos.length)];
+      final consejo = consejosHabitos[random.nextInt(consejosHabitos.length)];
       return '¡Claro! Aquí tienes un hábito saludable para empezar:\n\n'
           '$consejo\n\n'
           'Escribe "más hábitos" si quieres ver los diez consejos.';
     }
-
-    //Sugerencia en caso de que al usuario se le haga dificil
-    //un desafío
-    if (_containsAny(text, [
-  'no puedo con el desafio',
-  'no puedo con el desafío',
-  'no puedo con el reto',
-  'no lo logro',
-  'no puedo hacerlo',
-  'es demasiado para mi',
-  'es demasiado para mí',
-  'me cuesta mucho',
-  'me cuesta demasiado',
-  'es muy pesado',
-  'es muy complicado',
-  'muy complicado',
-  'muy exigente',
-  'quiero rendirme',
-  'me quiero rendir',
-])) {
-  return 'Te sugiero ir a ajustes para cambiar la dificultad de tus '
-      'desafíos, también puedes retirarte o cancelar el desafío.';
-}
-
-    //Fuentes de Grasas Saludables
-    if (_containsAny(text, [
-  'grasas saludables',
-  'grasa saludable',
-  'grasas buenas',
-  'grasa buena',
-  'fuentes de grasa',
-  'fuentes de grasas',
-  'alimentos con grasa saludable',
-  'alimentos con grasas saludables',
-  'que grasas puedo comer',
-  'qué grasas puedo comer',
-  'grasas sanas',
-  'aceite saludable',
-  'aceites saludables',
-])) {
-  return 'Algunas fuentes de grasas saludables son:\n\n'
-      '• Aguacate\n'
-      '• Aceite de oliva extra virgen\n'
-      '• Nueces, almendras, cacahuates y pistaches\n'
-      '• Semillas de chía, linaza y calabaza\n'
-      '• Pescados grasos: salmón, sardina, atún y caballa\n'
-      '• Aceitunas\n'
-      '• Huevo\n\n'
-      'Consúmelas con moderación: aunque son saludables, aportan '
-      'muchas calorías. Una porción pequeña al día es suficiente.';
-}
-
-    // 1. Comidas pesadas
-if (_containsAny(text, [
-  'comer antes de entrenar', 'comida pesada antes de hacer ejercicio',
-  'que no comer antes de entrenar', 'alimentos a evitar antes del gym',
-  'comida grasosa antes de ejercicio', 'comer mucho antes de entrenar',
-  'evitar fritos antes de entrenar', 'comer antes de correr',
-  'que no debo comer antes del ejercicio', 'comida antes del gimnasio',
-])) {
-  return 'Evita comidas pesadas, grasosas, fritas o muy abundantes 2 a 3 horas antes de entrenar. Pueden causar pesadez, náuseas y calambres. Mejor una comida ligera con carbohidratos y algo de proteína.';
-}
-
-// 2. Alcohol
-if (_containsAny(text, [
-  'alcohol antes de entrenar', 'beber antes de hacer ejercicio',
-  'cerveza antes del gym', 'tomar alcohol y entrenar',
-  'resaca y ejercicio', 'entrenar con resaca', 'alcohol y rendimiento',
-  'evitar alcohol antes de ejercicio', 'bebidas alcoholicas y deporte',
-  'puedo entrenar despues de tomar',
-])) {
-  return 'Evita el alcohol antes de entrenar (y la noche anterior). Deshidrata, reduce la coordinación, la fuerza y los reflejos, y aumenta el riesgo de lesiones.';
-}
-
-// 3. Exceso de cafeína
-if (_containsAny(text, [
-  'cafe antes de entrenar', 'cafeina antes del ejercicio',
-  'bebidas energeticas antes de entrenar', 'exceso de cafeina gym',
-  'pre entreno demasiado', 'preworkout riesgos', 'energizantes y ejercicio',
-  'cuanta cafeina antes de entrenar', 'taquicardia por pre entreno',
-  'redbull antes de entrenar',
-])) {
-  return 'Evita el exceso de cafeína y las bebidas energéticas. Demasiada puede causar taquicardia, temblores, ansiedad y malestar estomacal. Si la usas, que sea en dosis moderadas.';
-}
-
-// 4. Llegar deshidratado
-if (_containsAny(text, [
-  'agua antes de entrenar', 'deshidratacion y ejercicio',
-  'no beber agua antes del gym', 'hidratarse antes de hacer ejercicio',
-  'cuanta agua tomar antes de entrenar', 'entrenar sin tomar agua',
-  'sed durante el ejercicio', 'calambres por falta de agua',
-  'beber mucha agua antes de correr', 'hidratacion antes del entrenamiento',
-])) {
-  return 'No llegues deshidratado ni tampoco tomes grandes cantidades de golpe. Bebe agua de forma gradual durante el día y un poco (250-500 ml) antes de entrenar.';
-}
-
-// 5. Saltarse el calentamiento
-if (_containsAny(text, [
-  'entrenar sin calentar', 'no calentar antes de ejercicio',
-  'calentamiento antes del gym', 'es necesario calentar',
-  'lesiones por no calentar', 'calentamiento previo',
-  'empezar directo con pesas', 'saltarse el calentamiento',
-  'como calentar antes de entrenar', 'evitar lesiones al empezar',
-])) {
-  return 'No te saltes el calentamiento. De 5 a 10 minutos de movilidad y cardio suave preparan músculos y articulaciones y reducen el riesgo de lesiones.';
-}
-
-// 6. Estiramientos estáticos largos
-if (_containsAny(text, [
-  'estirar antes de entrenar', 'estiramientos antes del ejercicio',
-  'estiramiento estatico antes de pesas', 'estirar en frio',
-  'estiramientos largos antes de correr', 'estirar antes o despues',
-  'estiramiento dinamico', 'estirar antes del gym',
-  'perder fuerza por estirar', 'estiramientos previos al entrenamiento',
-])) {
-  return 'Evita los estiramientos estáticos largos (más de 30-60 s) antes de entrenar: pueden reducir temporalmente la fuerza y la potencia. Prefiere estiramientos dinámicos y deja los estáticos para el final.';
-}
-
-// 7. Entrenar sin dormir bien
-if (_containsAny(text, [
-  'entrenar sin dormir', 'poco sueno y ejercicio', 'dormir antes de entrenar',
-  'cansancio y gym', 'falta de descanso entrenamiento',
-  'entrenar con sueno', 'desvelado y ejercicio', 'dormir mal rendimiento',
-  'insomnio y entrenar', 'horas de sueno para entrenar',
-])) {
-  return 'Evita entrenar intenso con muy poco sueño. Baja el rendimiento, aumenta el riesgo de lesión y afecta la recuperación. Si dormiste mal, baja la intensidad o descansa.';
-}
-
-// 8. Analgésicos preventivos
-if (_containsAny(text, [
-  'ibuprofeno antes de entrenar', 'pastillas para el dolor y ejercicio',
-  'antiinflamatorios antes del gym', 'tomar analgesicos antes de correr',
-  'paracetamol antes de entrenar', 'medicamentos antes de hacer ejercicio',
-  'tomar pastilla para no sentir dolor', 'aines y deporte',
-  'naproxeno y ejercicio', 'analgesico preventivo deporte',
-])) {
-  return 'Evita tomar analgésicos o antiinflamatorios "preventivamente" antes de entrenar. Pueden enmascarar el dolor, afectar estómago y riñones, y hacerte ignorar una lesión. Consulta a un médico si los necesitas.';
-}
-
-// 9. Entrenar lesionado o enfermo
-if (_containsAny(text, [
-  'entrenar con fiebre', 'hacer ejercicio enfermo', 'entrenar con dolor',
-  'entrenar lesionado', 'ejercicio con gripe', 'entrenar con mareo',
-  'hacer ejercicio con resfriado', 'dolor de pecho al entrenar',
-  'cuando no debo entrenar', 'entrenar con malestar',
-])) {
-  return 'Evita entrenar con fiebre, mareos, dolor de pecho, vómito o dolor articular agudo. Descansa y consulta a un médico si los síntomas persisten.';
-}
-
-// 10. Ropa y calzado inadecuados
-if (_containsAny(text, [
-  'ropa para entrenar', 'zapatos para hacer ejercicio',
-  'calzado inadecuado gym', 'que no usar para entrenar',
-  'ropa incomoda ejercicio', 'tenis para correr', 'ropa de algodon sudor',
-  'evitar ampollas al entrenar', 'ropa y lesiones deportivas',
-  'que ponerme para entrenar',
-])) {
-  return 'Evita ropa muy ajustada, que no transpire o calzado gastado o inadecuado. Pueden causar rozaduras, ampollas, sobrecalentamiento y lesiones en rodillas y tobillos.';
-}
     
     if (_containsAny(text, [
       'hola',
@@ -532,7 +698,13 @@ if (_containsAny(text, [
       'buenos días',
       'buenas tardes',
       'buenas noches',
+      'Buenos dias',
+      'Buenos días',
+      'Buenas tardes',
+      'Buenas noches',
       'Ola',
+      'ola',
+      'Hola',
       'Buenas',
       'buenas',
     ])) {
@@ -544,6 +716,18 @@ if (_containsAny(text, [
     if (_containsAny(text, [
       'gracias',
       'te agradezco',
+      'muchas gracias',
+      'gracias por tu ayuda',
+      'Muchas gracias',
+      'Gracias por tu ayuda',
+      'Gracias',
+      'Te agradezco',
+      'Te agradezco mucho',
+      'Te agradezco por tu ayuda',
+      'Gracias por tu ayuda',
+      'te agradesco mucho',
+      'te agradesco por tu ayuda',
+      'gracias por tu ayuda',
     ])) {
       return '¡Con gusto! Recuerda que una alimentación variada y '
           'equilibrada es la mejor base para sentirte bien. Si '
@@ -557,7 +741,19 @@ if (_containsAny(text, [
   }
 
   bool _containsAny(String text, List<String> keywords) {
-    return keywords.any((word) => text.contains(word));
+    final normalized = text.toLowerCase();
+
+    return keywords.any((keyword) {
+      final key = keyword.toLowerCase();
+      if (key.isEmpty) return false;
+
+      final pattern = RegExp(
+        r'(^|[^a-záéíóúñ0-9])' + RegExp.escape(key) + r'($|[^a-záéíóúñ0-9])',
+        caseSensitive: false,
+      );
+
+      return pattern.hasMatch(normalized);
+    });
   }
 
    @override
