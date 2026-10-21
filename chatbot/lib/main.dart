@@ -99,6 +99,15 @@ class _NutriChatPageState extends State<NutriChatPage> {
     
   ];
 
+  //Opciones rápidas (versión móvil)
+  final List<String> mobileQuickOptions = [
+    '¿Cuánta agua debo tomar al día?',
+    '¿Es mejor comer antes o después de entrenar?',
+    'Ideas de snacks saludables para la tarde',
+    'Sugerir un nuevo hábito saludable',
+    'Calcular mi IMC',
+  ];
+
   void sendMessage([String? predefinedText]) {
     final text = (predefinedText ?? messageController.text).trim();
 
@@ -889,6 +898,64 @@ if (_containsAny(text, [
 //giovanni
 
 
+//Consultar la fecha desde el "bot"
+    if (_containsAny(text, [
+      'que dia es',
+      'qué día es',
+      'que día es hoy',
+      'qué dia es hoy',
+      'que fecha es hoy',
+      'qué fecha es hoy',
+      'fecha de hoy',
+      'fecha actual',
+      'que hora es',
+      'qué hora es',
+      'hora actual',
+      'dime la hora',
+      'dime la fecha',
+      'en que dia estamos',
+      'en qué día estamos',
+      'a cuanto estamos',
+      'a cuánto estamos',
+      'que dia de la semana',
+      'qué día de la semana',
+    ])) {
+      final now = DateTime.now();
+
+      const dias = [
+        'lunes',
+        'martes',
+        'miércoles',
+        'jueves',
+        'viernes',
+        'sábado',
+        'domingo',
+      ];
+      const meses = [
+        'enero',
+        'febrero',
+        'marzo',
+        'abril',
+        'mayo',
+        'junio',
+        'julio',
+        'agosto',
+        'septiembre',
+        'octubre',
+        'noviembre',
+        'diciembre',
+      ];
+
+      final diaSemana =
+          dias[now.weekday - 1]; // weekday: 1 = lunes ... 7 = domingo
+      final mes = meses[now.month - 1];
+      final hora = now.hour.toString().padLeft(2, '0');
+      final minuto = now.minute.toString().padLeft(2, '0');
+
+      return 'Hoy es $diaSemana ${now.day} de $mes de ${now.year}, '
+          'y son las $hora:$minuto.';
+    }
+
 
 
 
@@ -974,6 +1041,9 @@ if (_containsAny(text, [
 
   @override
   Widget build(BuildContext context) {
+     final bool isMobile = MediaQuery.of(context).size.width < 600; //Inicio. Lineas necesarias para que funcione lo de las cinco opciones para celular
+  final List<String> visibleOptions =
+      isMobile ? mobileQuickOptions : quickOptions;//Fin. Lineas necesarias para que funcione lo de las cinco opciones para celular
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.mintBg,
@@ -1062,7 +1132,7 @@ if (_containsAny(text, [
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: quickOptions.map((option) {
+                  children: visibleOptions.map((option) { // <- antes: quickOptions.map
                     return OutlinedButton(
                       onPressed: isTyping ? null : () => sendMessage(option),
                       style: OutlinedButton.styleFrom(
