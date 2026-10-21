@@ -104,7 +104,6 @@ class _NutriChatPageState extends State<NutriChatPage> {
     '¿Cuánta agua debo tomar al día?',
     '¿Es mejor comer antes o después de entrenar?',
     'Ideas de snacks saludables para la tarde',
-    'Sugerir un nuevo hábito saludable',
     'Calcular mi IMC',
   ];
 
