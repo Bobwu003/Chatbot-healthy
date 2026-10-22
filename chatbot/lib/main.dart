@@ -276,6 +276,10 @@ class _NutriChatPageState extends State<NutriChatPage> {
       'Donde puedo registrar un habito?',
       'donde puedo registrar un habito??'
       'Donde puedo registrar un habito??',
+         "donde registro un habito", //Giovanni
+      "como registro un habito", //Giovanni
+      "como se registra un habito", //Giovanni
+      "donde se registra un habito", //Giovanni
 
       ])) {
       return 'En la parte de Tu mision de hoy. '
@@ -349,7 +353,14 @@ class _NutriChatPageState extends State<NutriChatPage> {
       'Cambiar la contraseña',
       'cambiar email',
       'Cambiar email',
-
+      'como cambiar la contraseña', //giovanni
+      'como cambiar el correo y la contraseña', //Giovanni
+      'como cambiar la contraseña de mi cuenta', //Giovanni
+      'como puedo cambiar el correo,' // Giovanni
+          'donde cambio el correo', //Giovanni
+      'donde cambiar el correo', //Giovanni
+      'donde se cambia el correo', //Giovanni
+      'como se cambia el correo', //Giovanni
       ])) {
       return 'En la parte de perfil en la parte. '
           'inferior derecha entra a configuracion. '
@@ -395,6 +406,9 @@ class _NutriChatPageState extends State<NutriChatPage> {
       'Explica el hábito',
       'Explicar un habito saludable',
       'Explica un habito saludable',
+      'como funciona un habito', //Giovanni
+      'como funciona un hábito', //Giovanni
+      'en que consiste un hábito', //Giovanni
     ])) {
       return 'Un hábito es una conducta que se repite casi sin pensarlo y que se vuelve automática con el tiempo. '
           'Por ejemplo, caminar 20 minutos al día o beber agua al despertar. '
@@ -433,7 +447,10 @@ class _NutriChatPageState extends State<NutriChatPage> {
       'fotografías',
       'Foto',
       'foto',
-      
+      'evidencia fotográfica', //Giovanni
+      'evidencia fotografica', //Giovanni
+      'evidencias fotograficas', //Giovanni
+      'evidencias fotográficas', //Giovanni
     ])) {
       return 'La evidencias fotograficas funcionan por medio, '
           'de que avance la dificultad de los desafios, '
@@ -454,6 +471,8 @@ class _NutriChatPageState extends State<NutriChatPage> {
       'cuantas calorias',
       'Cuántas calorías',
       'Cuantas calorias',
+      'calorías necesarias', //Giovanni
+      'calorias necesarias', //Giovanni
     ])) {
       return 'Las calorías que necesitas varían según tu edad, sexo, '
           'peso y nivel de actividad. En lugar de contar cada '
@@ -498,7 +517,21 @@ class _NutriChatPageState extends State<NutriChatPage> {
       'Cuánta agua debo tomar al dia',
       'cuanta agua debo tomar al dia',
       'cuánta agua debo tomar al día',
-      
+            'agua debo beber al día', //Giovanni
+      'agua necesito tomar al día', // Giovanni
+      'agua tengo que tomar día', // Giovanni
+      'agua hay que tomar al día', //Giovanni
+      'agua necesito beber al día', // Giovanni
+      'agua tengo que beber al día', // Giovanni
+      'agua hay que beber al día', //Giovanni
+
+      'agua debo beber al dia', //Giovanni
+      'agua necesito tomar al dia', // Giovanni
+      'agua tengo que tomar al dia', // Giovanni
+      'agua hay que tomar al dia', //Giovanni
+      'agua necesito beber al dia', // Giovanni
+      'agua tengo que beber al dia', // Giovanni
+      'agua hay que beber al dia', //Giovanni
     ])) {
       return 'Multiplica tu peso corporal por 35 mililitros. Por  '
           'ejemplo, si pesas 70 kg, necesitas unos 2.45 litros al día. '
@@ -567,6 +600,8 @@ class _NutriChatPageState extends State<NutriChatPage> {
       'retroalimentación',
       'retroalimentacion',
       'Retroalimentación',
+      'feedback', //Giovanni
+      'Feedback' //Giovanni
     ])) {
       return 'Permite analizar el progreso registrado, '
           'y generar sugerencias de habitos acordes, '
@@ -586,6 +621,11 @@ class _NutriChatPageState extends State<NutriChatPage> {
       'comer antes de correr',
       'que no debo comer antes del ejercicio',
       'comida antes del gimnasio',
+      'evitar comer antes de entrenar', //Giovanni
+      'no debo comer antes de entrenar', //Giovanni
+      'debo de evitar comer antes de entrenar', //Giovanni
+      'debo dejar de comer antes de hacer ejercicio' //Giovanni
+          'debo dejar de comer antes de entrenar' //Giovanni
     ])) {
       return 'Evita comidas pesadas, grasosas, fritas o muy abundantes 2 a 3 horas antes de entrenar. Pueden causar pesadez, náuseas y calambres. Mejor una comida ligera con carbohidratos y algo de proteína.';
     }
@@ -732,6 +772,8 @@ class _NutriChatPageState extends State<NutriChatPage> {
       'Sugiereme un habito',
       'Sugerir un nuevo hábito saludable',
       'Sugerir un nuevo habito saludable',
+      'dime un habito saludable', //Giovanni
+      'sugiereme un habito saludable', //Giovanni
     ])) {
       final random = Random();
       final consejo = consejosHabitos[random.nextInt(consejosHabitos.length)];
@@ -784,6 +826,12 @@ class _NutriChatPageState extends State<NutriChatPage> {
   'grasas sanas',
   'aceite saludable',
   'aceites saludables',
+      'grasas sanas', //Giovanni
+      'aceites buenos', //Giovanni
+      'aceites sanos', //Giovanni
+      'grasa sana', //Giovanni
+      'aceite sano', //Giovanni
+      'aceite bueno', //Giovanni
 ])) {
   return 'Algunas fuentes de grasas saludables son:\n\n'
       '• Aguacate\n'
@@ -804,6 +852,15 @@ if (_containsAny(text, [
   'resaca y ejercicio', 'entrenar con resaca', 'alcohol y rendimiento',
   'evitar alcohol antes de ejercicio', 'bebidas alcoholicas y deporte',
   'puedo entrenar despues de tomar',
+  'tomar antes del ejercicio', //Giovanni
+      'tomar antes de hacer ejercicio' //Giovanni
+          'beber antes de hacer ejercicio' //Giovanni
+          'beber antes del ejercicio' //Giovanni
+
+          'tomar antes del entrenamiento', //Giovanni
+      'tomar antes de entrenar' //Giovanni
+          'beber antes de entrenar' //Giovanni
+          'beber antes del entrenamiento' //Giovanni
 ])) {
   return 'Evita el alcohol antes de entrenar (y la noche anterior). Deshidrata, reduce la coordinación, la fuerza y los reflejos, y aumenta el riesgo de lesiones.';
 }
@@ -815,6 +872,11 @@ if (_containsAny(text, [
   'pre entreno demasiado', 'preworkout riesgos', 'energizantes y ejercicio',
   'cuanta cafeina antes de entrenar', 'taquicardia por pre entreno',
   'redbull antes de entrenar',
+        'exceso de preentreno', //Giovanni
+      'demasiado preentreno', //Giovanni
+      'cafe antes de hacer ejercicio', //Giovanni
+      'demasiada cafeina antes de entrenar', //Giovanni
+      'mucha cafeina antes de entrenar', //Giovanni
 ])) {
   return 'Evita el exceso de cafeína y las bebidas energéticas. Demasiada puede causar taquicardia, temblores, ansiedad y malestar estomacal. Si la usas, que sea en dosis moderadas.';
 }
@@ -826,6 +888,25 @@ if (_containsAny(text, [
   'cuanta agua tomar antes de entrenar', 'entrenar sin tomar agua',
   'sed durante el ejercicio', 'calambres por falta de agua',
   'beber mucha agua antes de correr', 'hidratacion antes del entrenamiento',
+  'hago ejercicio sin tomar agua', //Giovanni
+      'hacer ejercicio sin haber tomado agua', //Giovanni
+      'hacer ejercicio sin tomar agua', //Giovanni
+      'hago ejercicio sin haber tomado agua', //Giovanni
+
+      'entreno sin tomar agua', //Giovanni
+      'entrenar sin haber tomado agua', //Giovanni
+      'entrenar sin tomar agua', //Giovanni
+      'entreno sin haber tomado agua', //Giovanni
+
+      'hago ejercicio sin beber agua', //Giovanni
+      'hacer ejercicio sin haber bebido agua', //Giovanni
+      'hacer ejercicio sin beber agua', //Giovanni
+      'hago ejercicio sin bebido tomado agua', //Giovanni
+
+      'sin haber tomado agua', //Giovanni
+      'sin tomar agua', //Giovanni
+      'sin beber agua', //Giovanni
+      'sin haber bebido agua' //Giovanni
 ])) {
   return 'No llegues deshidratado ni tampoco tomes grandes cantidades de golpe. Bebe agua de forma gradual durante el día y un poco (250-500 ml) antes de entrenar.';
 }
@@ -837,6 +918,11 @@ if (_containsAny(text, [
   'lesiones por no calentar', 'calentamiento previo',
   'empezar directo con pesas', 'saltarse el calentamiento',
   'como calentar antes de entrenar', 'evitar lesiones al empezar',
+  'salto el calentamiento antes de', //Giovanni
+      'no hago el calentamiento antes de', //Giovanni
+      'no hago calentamiento previo', // Giovanni
+      'hago ejercicio sin calentar', //Giovanni
+      'entreno sin calentar', //Giovanni
 ])) {
   return 'No te saltes el calentamiento. De 5 a 10 minutos de movilidad y cardio suave preparan músculos y articulaciones y reducen el riesgo de lesiones.';
 }
@@ -848,6 +934,7 @@ if (_containsAny(text, [
   'estiramientos largos antes de correr', 'estirar antes o despues',
   'estiramiento dinamico', 'estirar antes del gym',
   'perder fuerza por estirar', 'estiramientos previos al entrenamiento',
+  
 ])) {
   return 'Evita los estiramientos estáticos largos (más de 30-60 s) antes de entrenar: pueden reducir temporalmente la fuerza y la potencia. Prefiere estiramientos dinámicos y deja los estáticos para el final.';
 }
@@ -858,6 +945,15 @@ if (_containsAny(text, [
   'cansancio y gym', 'falta de descanso entrenamiento',
   'entrenar con sueno', 'desvelado y ejercicio', 'dormir mal rendimiento',
   'insomnio y entrenar', 'horas de sueno para entrenar',
+   'ejercicio sin dormir bien', //Giovanni
+      'ejercito sin dormir bien', //Giovanni
+      'entreno sin dormir bien', //Giovanni
+      'voy al gym sin dormir bien', //Giovanni
+
+      'ejercicio sin haber dormido bien', //Giovanni
+      'ejercito sin haber dormido bien', //Giovanni
+      'entreno sin haber dormido bien', //Giovanni
+      'voy al gym sin haber dormido bien', //Giovanni
 ])) {
   return 'Evita entrenar intenso con muy poco sueño. Baja el rendimiento, aumenta el riesgo de lesión y afecta la recuperación. Si dormiste mal, baja la intensidad o descansa.';
 }
@@ -890,6 +986,10 @@ if (_containsAny(text, [
   'ropa incomoda ejercicio', 'tenis para correr', 'ropa de algodon sudor',
   'evitar ampollas al entrenar', 'ropa y lesiones deportivas',
   'que ponerme para entrenar',
+  'pongo para entrenar', //Giovanni
+      'debo usar para entrenar', //Giovanni
+      'debo ponerme para entrenar', //Giovanni
+      'no me debo poner para hacer ejercicio', //Giovanni
 ])) {
   return 'Evita ropa muy ajustada, que no transpire o calzado gastado o inadecuado. Pueden causar rozaduras, ampollas, sobrecalentamiento y lesiones en rodillas y tobillos.';
 }
@@ -918,6 +1018,7 @@ if (_containsAny(text, [
       'a cuánto estamos',
       'que dia de la semana',
       'qué día de la semana',
+      'a qué estamos', //Giovanni
     ])) {
       final now = DateTime.now();
 
